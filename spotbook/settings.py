@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
 
+    'leaflet',
+
     'spotbook.apps.accounts',
     'spotbook.apps.profiles',
     'spotbook.apps.spots',
