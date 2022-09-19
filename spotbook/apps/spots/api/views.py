@@ -9,10 +9,9 @@ from .serializers import SpotSerializer
 def overview(request):
     api_urls = {
         'List': '/list/',
-        'Detail View': '/detail/<str:pk>/',
+        'Detai': '/detail/<str:pk>/',
         'Create': '/create/',
-        'Update': '/update/<str:pk>/',
-        'Delete': '/delete/<str:pk>/',
+        'Like': '/like-toggle/<str:pk>/',
     }
     
     return Response(api_urls)
