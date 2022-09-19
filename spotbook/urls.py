@@ -21,4 +21,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/', include('spotbook.apps.accounts.urls')),
     path('profiles/', include('spotbook.apps.profiles.urls')),
+    path('spots/', include('spotbook.apps.spots.urls')),
 ]

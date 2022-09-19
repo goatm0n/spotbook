@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.gis',
 
     'rest_framework',
+    'rest_framework_gis',
 
     'spotbook.apps.accounts',
     'spotbook.apps.profiles',
+    'spotbook.apps.spots',
 ]
 
 MIDDLEWARE = [
