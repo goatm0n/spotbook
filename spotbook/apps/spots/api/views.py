@@ -56,4 +56,20 @@ def like_toggle(request, pk):
 
     return Response({}, status=201)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow_toggle(request, pk):
+    qs = Spot.objects.filter(id=pk)
+    
+    if not qs.exists():
+        return Response({}, status=404)
+
+    obj = qs.first()
+    
+    if request.user in obj.followers.all():
+        obj.followers.remove(request.user)
+    else:
+        obj.followers.add(request.user)
+
+    return Response({}, status=201)
 
