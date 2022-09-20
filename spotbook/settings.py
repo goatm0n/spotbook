@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'spotbook.apps.accounts',
     'spotbook.apps.profiles',
     'spotbook.apps.spots',
+    'spotbook.apps.clips',
 ]
 
 MIDDLEWARE = [
