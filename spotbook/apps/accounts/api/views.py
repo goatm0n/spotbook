@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import AccountSerializer
 from spotbook.apps.accounts.models import Account
@@ -27,4 +28,12 @@ def accountDetail(request, pk):
     serializer = AccountSerializer(account, many=False)
 
     return Response(serializer.data)
+
+@api_view(['POST'])
+def create(request):
+    serializer = AccountSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response({}, status=400)
 
