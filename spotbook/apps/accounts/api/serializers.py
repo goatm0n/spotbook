@@ -16,3 +16,6 @@ class AccountSerializer(serializers.ModelSerializer):
             'is_superuser',
             'id',
         ]
+
+
+                

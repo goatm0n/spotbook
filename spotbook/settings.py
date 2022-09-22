@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_gis',
-    'knox',
 
     'corsheaders',
     'leaflet',
@@ -63,15 +62,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'knox.auth.TokenAuthentication',
-    ]
-}
-
 CORS_ORIGIN_ALLOW_ALL = True
+
+# change to app.example.com in production settings
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 
 ROOT_URLCONF = 'spotbook.urls'
 

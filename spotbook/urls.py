@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('csrf/', views.csrf),
+    path('ping/', views.ping),
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/', include('spotbook.apps.accounts.urls')),
     path('profiles/', include('spotbook.apps.profiles.urls')),

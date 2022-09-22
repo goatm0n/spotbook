@@ -1,8 +1,8 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import AccountSerializer
 from spotbook.apps.accounts.models import Account
+
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -10,8 +10,6 @@ def apiOverview(request):
         'List': '/list/',
         'Detail View': '/detail/<str:pk>/',
         'Create': '/create/',
-        'Update': '/update/<str:pk>/',
-        'Delete': '/delete/<str:pk>/',
     }
     return Response(api_urls)
 
@@ -36,4 +34,13 @@ def create(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response({}, status=400)
+
+
+
+
+
+        
+
+
+
 
