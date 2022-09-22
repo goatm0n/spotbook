@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('csrf/', views.csrf),
     path('ping/', views.ping),
+    path('login/', views.LoginView.as_view()),
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/', include('spotbook.apps.accounts.urls')),
     path('profiles/', include('spotbook.apps.profiles.urls')),

@@ -64,6 +64,9 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+# change to https://app.example.com in production settings
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+
 # change to app.example.com in production settings
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 
