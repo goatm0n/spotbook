@@ -21,7 +21,6 @@ class LoginView(views.APIView):
                 data = self.request.data,
                 context = { 'request': self.request }
                 )
-        print(serializer)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
