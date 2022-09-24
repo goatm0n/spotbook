@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.apiOverview, name='overview'),
+    path('list/', views.list, name='list'),
     path('detail/<str:username>/', views.detail, name='detail'),
     #path('<str:username>/follow', views.user_follow_view, name='api-profile-follow'), 
     path('followers/<str:username>/', views.followers, name='followers'),

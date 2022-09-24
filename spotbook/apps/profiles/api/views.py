@@ -11,11 +11,19 @@ User = get_user_model()
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
+        'list': '/list/',
         'detail': '/detail/<str:username>/',
         'followers': '/followers/<str:username>/',
         'follow-toggle': '/follow-toggle/<str:username>/',
     }
     return Response(api_urls)
+
+@api_view(['GET'])
+def list(request):
+    profileList = Profile.objects.all().order_by('-id')
+    serializer = ProfileSerializer(profileList, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def detail(request, username):
