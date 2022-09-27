@@ -9,4 +9,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             'full_name',
             #'profile_picture',
             'bio',
+            'followers'
         ]
