@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from spotbook.apps.spots.models import Spot
 from .serializers import SpotSerializer
+from spotbook.apps.accounts.api.serializers import AccountSerializer
 
 @api_view(['GET'])
 def overview(request):
@@ -73,4 +74,17 @@ def follow_toggle(request, pk):
         obj.followers.add(request.user)
 
     return Response({}, status=201)
+
+@api_view(['GET'])
+def followers(request, pk):
+    qs = Spot.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    followers = obj.followers.all()
+    serializer = AccountSerializer(followers, many=True)
+    return Response(serializer.data, status=200)
+
+
+
 

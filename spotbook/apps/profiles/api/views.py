@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from spotbook.apps.profiles.models import Profile
 from django.http.response import Http404
 from django.contrib.auth import get_user_model
+from spotbook.apps.accounts.api.serializers import AccountSerializer
 from .serializers import ProfileSerializer
 
 User = get_user_model()
@@ -37,21 +38,15 @@ def detail(request, username):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def followers(request, username):
-    user_qs = User.objects.filter(username=username)
-    if not user_qs.exists():
+def followers(request, pk):
+    qs = User.objects.filter(id=pk)
+    if not qs.exists():
         return Response({}, status=404)
-
-    user_ = user_qs.first()
-    profile_ = user_.profile
-    
-    followers_qs = profile_.followers.all()
-    followers = []
-    for profile in followers_qs:
-        username_ = profile.username
-        followers.append(username_)
-
-    return Response({'followers': followers})
+    obj = qs.first()
+    profile = obj.profile
+    followers = profile.followers.all()
+    serializer = AccountSerializer(followers, many=True) 
+    return Response(serializer.data, status=200)
 
 @api_view(['GET'])
 def following(request, username):
