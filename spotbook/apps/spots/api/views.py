@@ -58,6 +58,16 @@ def like_toggle(request, pk):
 
     return Response({}, status=201)
 
+@api_view(['GET'])
+def likes(request, pk):
+    qs = Spot.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    likes = obj.likes.all()
+    serializer = AccountSerializer(likes, many=True)
+    return Response(serializer.data, status=200)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def follow_toggle(request, pk):

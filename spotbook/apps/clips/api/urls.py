@@ -8,6 +8,6 @@ urlpatterns = [
     path('list-spot/<str:pk>/', views.list_spot, name='list-by-spot'),
     path('detail/<str:pk>/', views.detail, name='detail'),
     path('create/', views.create, name='create'),
-    
+    path('likes/<str:pk>/', views.likes, name='likes'),
     
 ]

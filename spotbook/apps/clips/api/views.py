@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from spotbook.apps.clips.models import Clip
 from spotbook.apps.profiles.models import Profile
 from .serializers import ClipSerializer
+from spotbook.apps.accounts.api.serializers import AccountSerializer
 
 @api_view(['GET'])
 def overview(request):
@@ -57,6 +58,17 @@ def create(request):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)
     return Response({}, status=400)
+
+@api_view(['GET'])
+def likes(request, pk):
+    qs = Clip.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    likes = obj.likes.all()
+    serializer = AccountSerializer(likes, many=True)
+    return Response(serializer.data, status=200)
+
 
 
 
