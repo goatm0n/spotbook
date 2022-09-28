@@ -68,6 +68,18 @@ def likes(request, pk):
     serializer = AccountSerializer(likes, many=True)
     return Response(serializer.data, status=200)
 
+@api_view(['GET'])
+def does_user_like(request, pk):
+    qs = Spot.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    spot = qs.first()
+    user = request.user
+    if user in spot.likes.all():
+        return Response({'data': True}, status=200)
+    else: 
+        return Response({'data': False}, status=200)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def follow_toggle(request, pk):
