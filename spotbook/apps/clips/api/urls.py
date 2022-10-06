@@ -9,5 +9,6 @@ urlpatterns = [
     path('detail/<str:pk>/', views.detail, name='detail'),
     path('create/', views.create, name='create'),
     path('likes/<str:pk>/', views.likes, name='likes'),
-    
+    path('does-user-like/<str:pk>/', views.doesUserLike, name="does-user-like-clip"),
+    path('like-toggle/<str:pk>/', views.like_toggle, name='like-toggle'),
 ]

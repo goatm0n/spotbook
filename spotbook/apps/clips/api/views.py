@@ -69,6 +69,33 @@ def likes(request, pk):
     serializer = AccountSerializer(likes, many=True)
     return Response(serializer.data, status=200)
 
+@api_view(['GET'])
+def doesUserLike(request, pk):
+    qs = Clip.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    clip = qs.first()
+    user = request.user
+    if user in clip.likes.all():
+        return Response({'data': True}, status=200)
+    else: 
+        return Response({'data': False}, status=200)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_toggle(request, pk):
+    qs = Clip.objects.filter(id=pk)
+    
+    if not qs.exists():
+        return Response({}, status=404)
+
+    obj = qs.first()
+    
+    if request.user in obj.likes.all():
+        obj.likes.remove(request.user)
+    else:
+        obj.likes.add(request.user)
+
+    return Response({}, status=201)
 
 
