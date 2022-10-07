@@ -1,3 +1,4 @@
+from ast import Return
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -108,5 +109,16 @@ def followers(request, pk):
     return Response(serializer.data, status=200)
 
 
+@api_view(['GET'])
+def does_user_follow(request, pk):
+    qs = Spot.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    user = request.user
+    if user in obj.followers.all():
+        return Response({'data': True}, status=200)
+    else:
+        return Response({'data': False}, status=200)
 
 

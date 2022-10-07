@@ -63,8 +63,8 @@ def following(request, username):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def follow_toggle(request, username):
-    qs = Profile.objects.filter(user__username=username)
+def follow_toggle(request, pk):
+    qs = Profile.objects.filter(user=pk)
     
     if not qs.exists():
         return Response({}, status=404)
@@ -77,6 +77,18 @@ def follow_toggle(request, username):
         obj.followers.add(request.user)
 
     return Response({}, status=201)
+
+@api_view(['GET'])
+def does_user_follow(request, pk):
+    qs = Profile.objects.filter(user=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    user = request.user
+    if user in obj.followers.all():
+        return Response({'data': True}, status=200)
+    else:
+        return Response({'data': False}, status=200)
 
 
 

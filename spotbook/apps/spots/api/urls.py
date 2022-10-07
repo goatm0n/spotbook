@@ -11,4 +11,5 @@ urlpatterns = [
         path('does-user-like/<str:pk>/', views.does_user_like, name='does user like spot'),
         path('follow-toggle/<str:pk>/', views.follow_toggle, name='follow-toggle'),
         path('followers/<str:pk>/', views.followers, name='followers'),
+        path('does-user-follow/<str:pk>/', views.does_user_follow, name='does-user-follow-spot'),
         ]
