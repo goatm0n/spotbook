@@ -35,6 +35,12 @@ def create(request):
         return Response(serializer.data, status=201)
     return Response({}, status=400)
 
+@api_view(['GET'])
+def username(request, pk):
+    account = Account.objects.get(id=pk)
+    return Response({account.username})
+    
+
 
 
 
