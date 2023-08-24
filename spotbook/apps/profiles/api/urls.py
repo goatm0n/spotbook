@@ -11,5 +11,5 @@ urlpatterns = [
     path('following/<str:username>/', views.following, name='api-following-profiles-list'),
     #path('user-following-spots/<str:username>/', views.user_following_spots_list, name='api-user-following-spots-list'),
     path('follow-toggle/<str:pk>/', views.follow_toggle, name='follow-toggle'),
-    
+    path('user-id-detail/<str:pk>/', views.userIdDetail, name='userId detail'),
 ]

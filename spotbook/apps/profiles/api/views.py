@@ -38,6 +38,18 @@ def detail(request, username):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def userIdDetail(request, pk):
+    # get profile for passed userId
+    qs = Profile.objects.filter(user=pk)
+    if not qs.exists():
+        raise Http404
+    profile_obj = qs.first()
+    serializer = ProfileSerializer(profile_obj)
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def followers(request, pk):
     qs = User.objects.filter(id=pk)
     if not qs.exists():
@@ -89,6 +101,8 @@ def does_user_follow(request, pk):
         return Response({'data': True}, status=200)
     else:
         return Response({'data': False}, status=200)
+    
+
 
 
 
