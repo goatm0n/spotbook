@@ -34,6 +34,15 @@ def list_user(request, username):
     return Response({"clip_id_list": clip_id_list})
 
 @api_view(['GET'])
+def list_user_id(request, pk):
+    clip_qs = Clip.objects.filter(user=pk)
+    clip_id_list = []
+    for obj in clip_qs:
+        clip_id_list.append(obj.id)
+    
+    return Response({"clip_id_list": clip_id_list})
+
+@api_view(['GET'])
 def list_spot(request, spot_id):
     clip_qs = Clip.objects.filter(spot__id=spot_id)
     clip_id_list = []
