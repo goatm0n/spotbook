@@ -12,4 +12,5 @@ urlpatterns = [
     #path('user-following-spots/<str:username>/', views.user_following_spots_list, name='api-user-following-spots-list'),
     path('follow-toggle/<str:pk>/', views.follow_toggle, name='follow-toggle'),
     path('user-id-detail/<str:pk>/', views.userIdDetail, name='userId detail'),
+    path('profile-picture/<str:pk>/', views.profile_picture, name='profile-picture'),
 ]

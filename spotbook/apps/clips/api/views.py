@@ -5,6 +5,7 @@ from spotbook.apps.clips.models import Clip
 from spotbook.apps.profiles.models import Profile
 from .serializers import ClipSerializer
 from spotbook.apps.accounts.api.serializers import AccountSerializer
+from django.conf import settings
 
 @api_view(['GET'])
 def overview(request):

@@ -154,7 +154,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = "C:\\Users\\User\\Documents\\GitHub\\spotbook\\media"
+MEDIA_ROOT = "media/"
+
+DEFAULT_PROFILE_PICTURE = "https://i.stack.imgur.com/l60Hf.png"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

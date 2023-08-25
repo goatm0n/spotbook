@@ -6,6 +6,7 @@ from django.http.response import Http404
 from django.contrib.auth import get_user_model
 from spotbook.apps.accounts.api.serializers import AccountSerializer
 from .serializers import ProfileSerializer
+from django.conf import settings
 
 User = get_user_model()
 
@@ -101,6 +102,16 @@ def does_user_follow(request, pk):
         return Response({'data': True}, status=200)
     else:
         return Response({'data': False}, status=200)
+    
+@api_view(['GET'])
+def profile_picture(request, pk):
+    profile = Profile.objects.get(id=pk)
+    profile_picture = profile.profile_picture
+    if not profile_picture:
+        return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
+    else:
+        return Response({"src": profile_picture.path})
+    
     
 
 
