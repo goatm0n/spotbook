@@ -113,7 +113,20 @@ def profile_picture(request, pk):
         return Response({"src": profile_picture.path})
     
     
+@api_view(['GET'])
+def user_id(request):
+    return Response({"user_id": request.user.id})
 
+@api_view(['GET'])
+def getUserIdFromEmail(request, email):
+    profile = Profile.objects.get(user__email=email)
+    userId = profile.user.id
+    return Response({"userId": userId})
+
+
+@api_view(['GET'])
+def default_profile_picture(request):
+    return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
 
 
 
