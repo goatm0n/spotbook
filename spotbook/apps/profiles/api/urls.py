@@ -16,4 +16,5 @@ urlpatterns = [
     path('user-id/', views.user_id, name='user id'),
     path('get-user-id-from-email/<str:email>', views.getUserIdFromEmail, name="get user id from email"),
     path('default-profile-picture/', views.default_profile_picture, name='default profile picture'),
+    path('update/<str:pk>/', views.update, name='update profile'),
 ]

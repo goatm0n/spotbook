@@ -5,8 +5,9 @@ from spotbook.apps.profiles.models import Profile
 from django.http.response import Http404
 from django.contrib.auth import get_user_model
 from spotbook.apps.accounts.api.serializers import AccountSerializer
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, UpdateProfileSerializer
 from django.conf import settings
+from rest_framework import status
 
 User = get_user_model()
 
@@ -128,6 +129,13 @@ def getUserIdFromEmail(request, email):
 def default_profile_picture(request):
     return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
 
-
-
+@api_view(['POST'])
+def update(request, pk):
+    profile = Profile.objects.get(user=pk)
+    data = UpdateProfileSerializer(instance=profile, data=request.data)
+    if data.is_valid():
+        data.save()
+        return Response(data.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
