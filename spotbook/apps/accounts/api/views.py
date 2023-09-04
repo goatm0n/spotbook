@@ -31,7 +31,10 @@ def accountDetail(request, pk):
 def create(request):
     serializer = AccountSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        email = request.data['email']
+        username = request.data['username']
+        password = request.data['password']
+        Account.objects.create_user(email, username, password)
         return Response(serializer.data, status=201)
     return Response({}, status=400)
 
