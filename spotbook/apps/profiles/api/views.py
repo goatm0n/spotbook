@@ -5,7 +5,9 @@ from spotbook.apps.profiles.models import Profile
 from django.http.response import Http404
 from django.contrib.auth import get_user_model
 from spotbook.apps.accounts.api.serializers import AccountSerializer
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, UpdateProfileSerializer
+from django.conf import settings
+from rest_framework import status
 
 User = get_user_model()
 
@@ -36,6 +38,18 @@ def detail(request, username):
     serializer = ProfileSerializer(profile_obj)
 
     return Response(serializer.data)
+
+@api_view(['GET'])
+def userIdDetail(request, pk):
+    # get profile for passed userId
+    qs = Profile.objects.filter(user=pk)
+    if not qs.exists():
+        raise Http404
+    profile_obj = qs.first()
+    serializer = ProfileSerializer(profile_obj)
+
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def followers(request, pk):
@@ -89,7 +103,39 @@ def does_user_follow(request, pk):
         return Response({'data': True}, status=200)
     else:
         return Response({'data': False}, status=200)
+    
+@api_view(['GET'])
+def profile_picture(request, pk):
+    profile = Profile.objects.get(id=pk)
+    profile_picture = profile.profile_picture
+    if not profile_picture:
+        return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
+    else:
+        return Response({"src": profile_picture.path})
+    
+    
+@api_view(['GET'])
+def user_id(request):
+    return Response({"user_id": request.user.id})
+
+@api_view(['GET'])
+def getUserIdFromEmail(request, email):
+    profile = Profile.objects.get(user__email=email)
+    userId = profile.user.id
+    return Response({"userId": userId})
 
 
+@api_view(['GET'])
+def default_profile_picture(request):
+    return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
 
+@api_view(['POST'])
+def update(request, pk):
+    profile = Profile.objects.get(user=pk)
+    data = UpdateProfileSerializer(instance=profile, data=request.data)
+    if data.is_valid():
+        data.save()
+        return Response(data.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 

@@ -7,7 +7,16 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = [
             'user',
             'full_name',
-            #'profile_picture',
+            'profile_picture',
             'bio',
             'followers'
+        ]
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'user',
+            'full_name',
+            'bio'
         ]
