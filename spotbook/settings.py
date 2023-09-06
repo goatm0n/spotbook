@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from . import keys
 
 if os.name == 'nt':
     import platform
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t7f0n(g@g7q#911spmd+-kzn002#f(s(9j6-d)xxo!9+qkc9=5'
+SECRET_KEY = keys.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+
+    'storages',
 
     'rest_framework',
     'rest_framework_gis',
@@ -109,9 +112,9 @@ WSGI_APPLICATION = 'spotbook.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'spotbook-dev',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': keys.DATABASE_NAME,
+        'USER': keys.DATABASE_USER,
+        'PASSWORD': keys.DATABASE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5433',
     }
@@ -156,9 +159,27 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = "media/"
 
+DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
+
 DEFAULT_PROFILE_PICTURE = "https://i.stack.imgur.com/l60Hf.png"
+
+# AWS
+AWS_S3_ACCESS_KEY_ID = keys.AWS_S3_ACCESS_KEY_ID
+AWS_S3_SECRET_ACCESS_KEY = keys.AWS_S3_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = keys.AWS_STORAGE_BUCKET_NAME
+AWS_DEFAULT_ACL = None
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_ROOT}'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
