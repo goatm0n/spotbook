@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from . import keys
 
 if os.name == 'nt':
     import platform
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+
+    'storages',
 
     'rest_framework',
     'rest_framework_gis',
@@ -156,9 +159,27 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = "media/"
 
+DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
+
 DEFAULT_PROFILE_PICTURE = "https://i.stack.imgur.com/l60Hf.png"
+
+# AWS
+AWS_S3_ACCESS_KEY_ID = keys.AWS_S3_ACCESS_KEY_ID
+AWS_S3_SECRET_ACCESS_KEY = keys.AWS_S3_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = keys.AWS_STORAGE_BUCKET_NAME
+AWS_DEFAULT_ACL = None
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_ROOT}'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+

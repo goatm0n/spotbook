@@ -106,12 +106,13 @@ def does_user_follow(request, pk):
     
 @api_view(['GET'])
 def profile_picture(request, pk):
-    profile = Profile.objects.get(id=pk)
+    profile = Profile.objects.get(user=pk)
     profile_picture = profile.profile_picture
+    print(profile_picture)
     if not profile_picture:
         return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
     else:
-        return Response({"src": profile_picture.path})
+        return Response({"src": f'{settings.MEDIA_URL}{profile_picture}'})
     
     
 @api_view(['GET'])
