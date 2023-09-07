@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from spotbook.apps.clips.models import Clip
+from spotbook.apps.profiles.api.serializers import ProfileSerializer
 from spotbook.apps.profiles.models import Profile
 from .serializers import ClipSerializer
 from spotbook.apps.accounts.api.serializers import AccountSerializer
@@ -38,7 +39,7 @@ def list_user_id(request, pk):
     clip_qs = Clip.objects.filter(user=pk)
     clip_id_list = []
     for obj in clip_qs:
-        clip_id_list.append(obj.id)
+        clip_id_list.insert(0, obj.id)
     
     return Response({"clip_id_list": clip_id_list})
 
@@ -47,7 +48,7 @@ def list_spot(request, pk):
     clip_qs = Clip.objects.filter(spot__id=pk)
     clip_id_list = []
     for obj in clip_qs:
-        clip_id_list.append(obj.id)
+        clip_id_list.insert(0, obj.id)
     
     return Response({"clip_id_list": clip_id_list})
 
@@ -58,6 +59,12 @@ def detail(request, pk):
     data = serializer.data
     data['username'] = clip.user.username
     data['likesCount'] = clip.likes.all().count()
+    profile = Profile.objects.get(user__username=data['username'])
+    profile_serializer = ProfileSerializer(profile)
+    profile_data = profile_serializer.data
+    profile_picture = profile_data['profile_picture']
+    data['profile_picture'] = profile_picture
+
     return Response(data)
 
 @api_view(['POST'])
