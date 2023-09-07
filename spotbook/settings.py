@@ -115,8 +115,8 @@ DATABASES = {
         'NAME': keys.DATABASE_NAME,
         'USER': keys.DATABASE_USER,
         'PASSWORD': keys.DATABASE_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'HOST': keys.END_POINT,
+        'PORT': keys.PORT,
     }
 }
 
