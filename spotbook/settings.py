@@ -80,7 +80,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['https://spotbook.pages.dev']
 
 # change to app.example.com in production settings
-CSRF_TRUSTED_ORIGINS = ['spotbook.pages.dev']
+CSRF_TRUSTED_ORIGINS = ['https://spotbook.pages.dev']
 
 ROOT_URLCONF = 'spotbook.urls'
 
