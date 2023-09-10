@@ -159,6 +159,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = 'static/'
+
 MEDIA_ROOT = "media/"
 
 DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
