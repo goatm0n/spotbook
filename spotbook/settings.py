@@ -78,11 +78,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# change to https://app.example.com in production settings
-CORS_ORIGIN_WHITELIST = ['https://spotbook.pages.dev']
-
-# change to app.example.com in production settings
-CSRF_TRUSTED_ORIGINS = ['https://spotbook.pages.dev']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5173']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173']
 
 ROOT_URLCONF = 'spotbook.urls'
 
@@ -183,12 +180,4 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_ROOT}'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-SECURE_SSL_REDIRECT = True
-
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
-
-SECURE_HSTS_SECONDS = 60
 
