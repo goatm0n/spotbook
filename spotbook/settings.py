@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from . import keys
+from . import keys_aws as keys
 
 if os.name == 'nt':
     import platform
