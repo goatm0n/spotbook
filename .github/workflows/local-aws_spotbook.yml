@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r localrequirements.txt
-          pip install GDAL==3.8.1
+          pip install GDAL==3.4.3
         
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
