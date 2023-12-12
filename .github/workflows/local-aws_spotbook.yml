@@ -26,9 +26,17 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
+          apt-get install gdal-bin
+          apt-get install libgdal-dev
+          export CPLUS_INCLUDE_PATH=/usr/include/gdal
+          export C_INCLUDE_PATH=/usr/include/gdal
+          pip install GDAL
+
+          
       
       - name: Install dependencies
         run: pip install -r localrequirements.txt
+        
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
