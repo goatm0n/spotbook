@@ -40,6 +40,11 @@ jobs:
         run: |
           pip install -r localrequirements.txt
           pip install GDAL==3.4.3
+          sudo apt-get install cmake
+          cd /home/site/deployments/tools/gdal/build
+          cmake ..
+          cmake --build .
+          cmake --build . --target install
         
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
