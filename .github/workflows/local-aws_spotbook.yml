@@ -41,7 +41,11 @@ jobs:
           pip install -r localrequirements.txt
           pip install GDAL==3.4.3
           sudo apt-get install cmake
-          cd /home/site
+          cd ..
+          ls
+          cd ..
+          ls 
+          cd ..
           ls
         
         
