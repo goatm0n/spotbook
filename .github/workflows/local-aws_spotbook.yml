@@ -33,12 +33,13 @@ jobs:
           export CPLUS_INCLUDE_PATH=/usr/include/gdal
           export C_INCLUDE_PATH=/usr/include/gdal
           export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/
-          pip install GDAL==3.8.1
 
           
       
       - name: Install dependencies
-        run: pip install -r localrequirements.txt
+        run: |
+          pip install -r localrequirements.txt
+          pip install GDAL==3.8.1
         
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
