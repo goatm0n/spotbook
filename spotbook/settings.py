@@ -111,11 +111,11 @@ WSGI_APPLICATION = 'spotbook.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': keys.DATABASE_NAME,
-        'USER': keys.DATABASE_USER,
-        'PASSWORD': keys.DATABASE_PASSWORD,
-        'HOST': keys.END_POINT,
-        'PORT': keys.PORT,
+        'NAME': os.environ['DATABASE_NAME'],    #keys.DATABASE_NAME,
+        'USER': os.environ['DATABASE_USER'],    #keys.DATABASE_USER,
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],    #keys.DATABASE_PASSWORD,
+        'HOST': os.environ['END_POINT'],    #keys.END_POINT,
+        'PORT': os.environ['PORT'],    #keys.PORT,
     }
 }
 
