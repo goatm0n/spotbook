@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-from . import keys
 
 if os.name == 'nt':
     import platform
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = keys.SECRET_KEY
+SECRET_KEY = os.environ['SECRET_KEY']   #keys.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -165,9 +164,9 @@ DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
 DEFAULT_PROFILE_PICTURE = "https://i.stack.imgur.com/l60Hf.png"
 
 # AWS
-AWS_S3_ACCESS_KEY_ID = keys.AWS_S3_ACCESS_KEY_ID
-AWS_S3_SECRET_ACCESS_KEY = keys.AWS_S3_SECRET_ACCESS_KEY
-AWS_STORAGE_BUCKET_NAME = keys.AWS_STORAGE_BUCKET_NAME
+AWS_S3_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY_ID']           #keys.AWS_S3_ACCESS_KEY_ID
+AWS_S3_SECRET_ACCESS_KEY = os.environ['AWS_S3_SECRET_ACCESS_KEY']   #keys.AWS_S3_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']     #keys.AWS_STORAGE_BUCKET_NAME
 AWS_DEFAULT_ACL = None
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 AWS_S3_OBJECT_PARAMETERS = {
