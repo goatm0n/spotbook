@@ -3,3 +3,4 @@ __pycache__/
 *.py[cod]
 media/
 spotbook/keys.py
+spotbook/keys_aws.py
