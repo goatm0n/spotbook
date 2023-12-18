@@ -29,7 +29,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          sudo apt-get install binutils libproj-dev gdal-bin
+          sudo apt-get update && sudo apt-get install binutils libproj-dev gdal-bin
           pip install -r requirements.txt
           pip install GDAL
         
