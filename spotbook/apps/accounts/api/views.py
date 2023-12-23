@@ -42,6 +42,19 @@ def create(request):
 def username(request, pk):
     account = Account.objects.get(id=pk)
     return Response({account.username})
+
+@api_view(['PUT'])
+def update(request, pk):
+    try:
+        account = Account.objects.get(id=pk)
+    except:
+        return Response(status=404)
+    serializer = AccountSerializer(account, request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=204)
+    return Response(status=404)
+    
     
 
 
