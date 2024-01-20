@@ -4,3 +4,4 @@ __pycache__/
 media/
 spotbook/keys.py
 spotbook/keys_aws.py
+venv/
