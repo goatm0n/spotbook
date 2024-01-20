@@ -16,8 +16,11 @@ def apiOverview(request):
     api_urls = {
         'list': '/list/',
         'detail': '/detail/<str:username>/',
-        'followers': '/followers/<str:username>/',
+        'detail by user_id': 'user-id-detail/<str:pk>/',
+        'followers': '/followers/<str:pk>/',
         'follow-toggle': '/follow-toggle/<str:username>/',
+        'update': 'update/<str:pk>/',
+        'get user id from email' : 'get-user-id-from-email/<str:email>',
     }
     return Response(api_urls)
 
@@ -61,6 +64,18 @@ def followers(request, pk):
     followers = profile.followers.all()
     serializer = AccountSerializer(followers, many=True) 
     return Response(serializer.data, status=200)
+
+@api_view(['GET'])
+def followerProfiles(request, pk):
+    qs = Profile.objects.filter(user=pk)
+    if not qs.exists():
+        return Response({}, status=404)
+    profile = qs.first()
+    follower_accounts = profile.followers.all()
+    follower_profiles = Profile.objects.filter(user__in=follower_accounts)
+    serializer = ProfileSerializer(follower_profiles, many=True)
+    return Response(serializer.data, status=200)
+
 
 @api_view(['GET'])
 def following(request, username):
@@ -130,7 +145,7 @@ def getUserIdFromEmail(request, email):
 def default_profile_picture(request):
     return Response({"src": settings.DEFAULT_PROFILE_PICTURE})
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def update(request, pk):
     profile = Profile.objects.get(user=pk)
     data = UpdateProfileSerializer(instance=profile, data=request.data)
