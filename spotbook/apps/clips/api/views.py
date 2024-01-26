@@ -16,6 +16,7 @@ def overview(request):
         'List by user': '/list-user/<str:username>/',
         'Detail View': '/detail/<str:pk>/',
         'Create': '/create/',
+        'Profile ClipFeed': '/profile-clipfeed/<str:pk>/',
     }
     return Response(api_urls)
 
@@ -52,8 +53,8 @@ def list_spot(request, pk):
     
     return Response({"clip_id_list": clip_id_list})
 
-@api_view(['GET'])
-def detail(request, pk):
+
+def get_detail(pk):
     clip = Clip.objects.get(id=pk)
     serializer = ClipSerializer(clip)
     data = serializer.data
@@ -64,8 +65,11 @@ def detail(request, pk):
     profile_data = profile_serializer.data
     profile_picture = profile_data['profile_picture']
     data['profile_picture'] = profile_picture
+    return data
 
-    return Response(data)
+@api_view(['GET'])
+def detail(request, pk):
+    return Response(get_detail(pk))
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -116,3 +120,14 @@ def like_toggle(request, pk):
     return Response({}, status=201)
 
 
+@api_view(['GET'])
+def profile_clipfeed(request, userId):
+    qs = Clip.objects.filter(user=userId)
+    if not qs.exists():
+        return Response({}, status=404)
+    data = []
+    for clip in qs:
+        detail = get_detail(clip.id)
+        data.append(detail)
+
+    return Response(data)
