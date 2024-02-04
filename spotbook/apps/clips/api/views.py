@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from spotbook.apps.clips.models import Clip
+from spotbook.apps.profiles.api.serializers import ProfileSerializer
 from spotbook.apps.profiles.models import Profile
 from .serializers import ClipSerializer
 from spotbook.apps.accounts.api.serializers import AccountSerializer
@@ -15,6 +16,8 @@ def overview(request):
         'List by user': '/list-user/<str:username>/',
         'Detail View': '/detail/<str:pk>/',
         'Create': '/create/',
+        'Profile ClipFeed': '/profile-clipfeed/<str:userId>/',
+        'Spot ClipFeed': '/spot-clipfeed/<str:spotId>/',
     }
     return Response(api_urls)
 
@@ -38,7 +41,7 @@ def list_user_id(request, pk):
     clip_qs = Clip.objects.filter(user=pk)
     clip_id_list = []
     for obj in clip_qs:
-        clip_id_list.append(obj.id)
+        clip_id_list.insert(0, obj.id)
     
     return Response({"clip_id_list": clip_id_list})
 
@@ -47,18 +50,27 @@ def list_spot(request, pk):
     clip_qs = Clip.objects.filter(spot__id=pk)
     clip_id_list = []
     for obj in clip_qs:
-        clip_id_list.append(obj.id)
+        clip_id_list.insert(0, obj.id)
     
     return Response({"clip_id_list": clip_id_list})
 
-@api_view(['GET'])
-def detail(request, pk):
+
+def get_detail(pk):
     clip = Clip.objects.get(id=pk)
     serializer = ClipSerializer(clip)
     data = serializer.data
     data['username'] = clip.user.username
     data['likesCount'] = clip.likes.all().count()
-    return Response(data)
+    profile = Profile.objects.get(user__username=data['username'])
+    profile_serializer = ProfileSerializer(profile)
+    profile_data = profile_serializer.data
+    profile_picture = profile_data['profile_picture']
+    data['profile_picture'] = profile_picture
+    return data
+
+@api_view(['GET'])
+def detail(request, pk):
+    return Response(get_detail(pk))
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -109,3 +121,24 @@ def like_toggle(request, pk):
     return Response({}, status=201)
 
 
+@api_view(['GET'])
+def profile_clipfeed(request, userId):
+    qs = Clip.objects.filter(user=userId)
+    if not qs.exists():
+        return Response({}, status=404)
+    data = []
+    for clip in qs:
+        detail = get_detail(clip.id)
+        data.append(detail)
+    return Response(data)
+
+@api_view(['GET'])
+def spot_clipfeed(request, spotId):
+    qs = Clip.objects.filter(spot=spotId)
+    if not qs.exists():
+        return Response({}, status=404)
+    data = []
+    for clip in qs:
+        detail = get_detail(clip.id)
+        data.append(detail)
+    return Response(data)

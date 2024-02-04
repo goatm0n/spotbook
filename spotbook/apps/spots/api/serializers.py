@@ -15,4 +15,4 @@ class SpotSerializer(GeoFeatureModelSerializer):
             'likes',
             'timestamp',
             'followers',
-         )
+        )

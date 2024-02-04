@@ -1,0 +1,56 @@
+django
+gunicorn
+nginx
+
+run django wsgi with gunicorn
+use nginx to proxy to gunicorn server
+
+----pseudo code----
+--assumptions
+-gunicorn installed
+
+--bash commands
+## gunicorn
+cd /spotbook
+python3.10 -m venv venv
+source ./venv/bin/activate
+pip3.10 install -r requirements.txt
+mkdir -pv config/gunicorn/
+# create dev.py config file here (wsgi_app="spotbook.wsgi", bind="0.0.0.0:8000", etc)
+sudo mkdir -pv /var/{log,run}/gunicorn/
+sudo chown -cR ubuntu:ubuntu var/{log,run}/gunicorn/
+gunicorn -c config/gunicorn/dev.py
+# logs
+# tail -f /var/log/gunicorn/dev.log
+#
+## nginx
+sudo apt-get install nginx
+sudo systemctl start nginx
+# logs
+# sudo systemctl status nginx
+## nginx config file
+# echo 
+# server_tokens off;
+# access_log /var/log/nginx/spotbookserver.access.log;
+# error_log /var/log/nginx/spotbookserver.error.log;
+# server {
+#  server_name .spotbookserver.spotbookapp.com;
+#  listen 80;
+#  location {
+#   proxy_pass http://localhost:8000;
+#   proxy_set_header Host $host;
+#  }	
+# } >> /etc/nginx/sites-available/spotbookserver
+#
+## check nginx config
+# service nginx configtest /etc/nginx/sites-available/supersecure
+## symlink
+cd /etc/nginx/site-enabled
+sudo ln -s ../sites-available/spotbookserver
+sudo systemctl restart nginx
+## get certificates
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx --rsa-key-size 4096 --no-redirect
+# certbot will automatically update nginx config file
+sudo systemctl reload nginx

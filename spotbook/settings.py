@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = keys.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+
+    'django_extensions',
 
     'storages',
 
@@ -76,11 +78,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# change to https://app.example.com in production settings
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
-
-# change to app.example.com in production settings
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5173']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173']
 
 ROOT_URLCONF = 'spotbook.urls'
 
@@ -115,8 +114,8 @@ DATABASES = {
         'NAME': keys.DATABASE_NAME,
         'USER': keys.DATABASE_USER,
         'PASSWORD': keys.DATABASE_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'HOST': keys.END_POINT,
+        'PORT': keys.PORT,
     }
 }
 
@@ -157,6 +156,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = 'static/'
+
 MEDIA_ROOT = "media/"
 
 DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
@@ -179,7 +180,4 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_ROOT}'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
 
