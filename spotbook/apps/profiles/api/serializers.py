@@ -12,12 +12,3 @@ class ProfileSerializer(serializers.ModelSerializer):
             'followers'
         ]
 
-class UpdateProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = [
-            'user',
-            'full_name',
-            'bio',
-            'profile_picture'
-        ]
