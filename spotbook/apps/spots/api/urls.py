@@ -12,4 +12,6 @@ urlpatterns = [
     path('follow-toggle/<str:pk>/', views.follow_toggle, name='follow-toggle'),
     path('followers/<str:pk>/', views.followers, name='followers'),
     path('does-user-follow/<str:pk>/', views.does_user_follow, name='does-user-follow-spot'),
+    path('following/<str:userId>/', views.following, name="followed by user"),
+    path('spots-user-likes/<str:userId>/', views.spots_user_likes, name="Spots User Likes"),
 ]
