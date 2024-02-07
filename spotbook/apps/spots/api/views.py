@@ -4,7 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from spotbook.apps.spots.models import Spot
+from spotbook.apps.profiles.models import Profile
+from spotbook.apps.profiles.api.serializers import ProfileSerializer
 from .serializers import SpotSerializer
+from spotbook.apps.accounts.models import Account
 from spotbook.apps.accounts.api.serializers import AccountSerializer
 
 @api_view(['GET'])
@@ -104,8 +107,11 @@ def followers(request, pk):
     if not qs.exists():
         return Response({}, status=404)
     obj = qs.first()
-    followers = obj.followers.all()
-    serializer = AccountSerializer(followers, many=True)
+    users = obj.followers.all()
+    profiles = []
+    for user in users:
+        profiles.append(Profile.objects.get(user=user.id))
+    serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data, status=200)
 
 
@@ -121,4 +127,22 @@ def does_user_follow(request, pk):
     else:
         return Response({'data': False}, status=200)
 
+@api_view(['GET'])
+def following(request, userId):
+    qs = Account.objects.filter(id=userId)
+    if not qs.exists():
+        return Response({}, status=404)
+    user = qs.first()
+    spots = user.following_spots.all()
+    serializer = SpotSerializer(spots, many=True)
+    return Response(serializer.data, status=200)
 
+@api_view(['GET'])
+def spots_user_likes(request, userId):
+    qs = Account.objects.filter(id=userId)
+    if not qs.exists():
+        return Response({}, status=404)
+    user = qs.first()
+    spots = user.spot_user.all()
+    serializer = SpotSerializer(spots, many=True)
+    return Response(serializer.data, status=200)

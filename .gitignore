@@ -5,4 +5,6 @@ media/
 spotbook/keys.py
 spotbook/keys_aws.py
 venv/
-newvenv/
+spotbook/__pycache__/wsgi.cpython-310.py
+spotbook/__pycache__/urls.cpython-310.py
+spotbook/__pycache__/settings.cpython-310.pyc
