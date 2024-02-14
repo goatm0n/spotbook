@@ -5,3 +5,5 @@ media/
 spotbook/keys.py
 spotbook/keys_aws.py
 venv/
+spotbook/devkeys.py
+SpotList.txt
