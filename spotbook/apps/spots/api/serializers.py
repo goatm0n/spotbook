@@ -1,5 +1,6 @@
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from spotbook.apps.spots.models import Spot
+from spotbook.apps.spots.models import Spot, SpotList
+from rest_framework import serializers
 
 class SpotSerializer(GeoFeatureModelSerializer):
     class Meta:
@@ -16,3 +17,13 @@ class SpotSerializer(GeoFeatureModelSerializer):
             'timestamp',
             'followers',
         )
+
+class SpotListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpotList
+        fields = [
+            'user',
+            'name',
+            'timestamp',
+            'id',
+        ]
