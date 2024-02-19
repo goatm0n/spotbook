@@ -52,4 +52,4 @@ class SpotListItem(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     spot = models.ForeignKey(Spot, on_delete=models.CASCADE)
     spotlist = models.ForeignKey(SpotList, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)

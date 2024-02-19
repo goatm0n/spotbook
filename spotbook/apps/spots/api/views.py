@@ -1,12 +1,11 @@
-from ast import Return
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from spotbook.apps.spots.models import Spot, SpotList
+from spotbook.apps.spots.models import Spot, SpotList, SpotListItem
 from spotbook.apps.profiles.models import Profile
 from spotbook.apps.profiles.api.serializers import ProfileSerializer
-from .serializers import SpotListSerializer, SpotSerializer
+from .serializers import SpotListItemSerializer, SpotListSerializer, SpotSerializer
 from spotbook.apps.accounts.models import Account
 from spotbook.apps.accounts.api.serializers import AccountSerializer
 
@@ -172,3 +171,33 @@ def spotlist(request, pk):
     spotlistdata['spots'] = spotsdata
 
     return Response(spotlistdata, status=200)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createSpotListitem(request):
+    serializer = SpotListItemSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=201)
+    return Response({}, status=400)
+
+@api_view(['GET'])
+def spotlistItems(request, userId, spotId):
+    qs = SpotListItem.objects.filter(user=userId, spot=spotId)
+    if not qs.exists():
+        return Response({}, status=204)
+    serializer = SpotListItemSerializer(qs, many=True)
+    return Response(serializer.data, status=200)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteSpotListItem(request, pk):
+    qs = SpotListItem.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=410)
+    spotListItem = qs.first()
+    # can remove if they own the list or item
+    if spotListItem.user == request.user or spotListItem.spotlist.user == request.user:
+        spotListItem.delete()
+        return Response(status=200)
+    
