@@ -8,3 +8,6 @@ venv/
 spotbook/__pycache__/wsgi.cpython-310.py
 spotbook/__pycache__/urls.cpython-310.py
 spotbook/__pycache__/settings.cpython-310.pyc
+
+spotbook/devkeys.py
+SpotList.txt
