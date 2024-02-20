@@ -19,4 +19,6 @@ urlpatterns = [
     path('create-spotlistitem/', views.createSpotListitem, name='create SpotListItem'),
     path('spotlistitems/<str:userId>/<str:spotId>/', views.spotlistItems, name='spot list items'),
     path('deletespotlistitem/<str:pk>/', views.deleteSpotListItem, name='delete spotlistitem'),
+    path('createspotlist/', views.createSpotList, name='create spotlist'),
+    path('deletespotlist/<str:pk>/', views.deleteSpotList, name='delete spotlist'),
 ]

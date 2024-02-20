@@ -201,3 +201,31 @@ def deleteSpotListItem(request, pk):
         spotListItem.delete()
         return Response(status=200)
     
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createSpotList(request):
+    name = request.data['name']
+    userId = request.user.id
+    data = {
+        "name": name,
+        "user": userId,
+    }
+    serializer = SpotListSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    else:
+        return Response(serializer.errors, status=500)
+    
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteSpotList(request, pk):
+    qs = SpotList.objects.filter(id=pk)
+    if not qs.exists():
+        return Response({}, status=410)
+    spotList = qs.first()
+    # can remove if they own the list or item
+    if spotList.user == request.user:
+        spotList.delete()
+        return Response(status=200)
