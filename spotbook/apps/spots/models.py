@@ -43,4 +43,13 @@ class Spot(models.Model):
         return self.title
 
 
-
+class SpotList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+class SpotListItem(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    spot = models.ForeignKey(Spot, on_delete=models.CASCADE)
+    spotlist = models.ForeignKey(SpotList, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)

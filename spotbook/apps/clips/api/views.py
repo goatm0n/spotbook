@@ -136,7 +136,7 @@ def profile_clipfeed(request, userId):
 def spot_clipfeed(request, spotId):
     qs = Clip.objects.filter(spot=spotId)
     if not qs.exists():
-        return Response({}, status=404)
+        return Response({}, status=204)
     data = []
     for clip in qs:
         detail = get_detail(clip.id)
