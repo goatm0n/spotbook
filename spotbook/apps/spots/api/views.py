@@ -2,10 +2,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from spotbook.apps.spots.models import Spot, SpotList, SpotListItem
+from spotbook.apps.spots.models import Spot, SpotList, SpotListItem, SpotListUser
 from spotbook.apps.profiles.models import Profile
 from spotbook.apps.profiles.api.serializers import ProfileSerializer
-from .serializers import SpotListItemSerializer, SpotListSerializer, SpotSerializer
+from .serializers import SpotListItemSerializer, SpotListSerializer, SpotListUserSerializer, SpotSerializer
 from spotbook.apps.accounts.models import Account
 from spotbook.apps.accounts.api.serializers import AccountSerializer
 
@@ -229,3 +229,42 @@ def deleteSpotList(request, pk):
     if spotList.user == request.user:
         spotList.delete()
         return Response(status=200)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createSpotListUser(request):
+    serializer = SpotListUserSerializer(data={
+      'user': request.data['user'],
+      'spotlist': request.data['spotlist'],
+    })
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+        data['username'] = Account.objects.get(id=request.data['user']).username
+        return Response(data, status=201)
+    else:
+        return Response(serializer.errors, status=500)
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteSpotListUser(request, userId):
+    qs = SpotListUser.objects.filter(user=userId)
+    if not qs.exists():
+        return Response({}, status=410)
+    spotListUser = qs.first()
+    # can remove if they own the list
+    if spotListUser.spotlist.user == request.user:
+        spotListUser.delete()
+        return Response(status=200)
+    return Response(status=500)
+
+@api_view(['GET'])
+def spotlistusers(request, spotlistId):
+    qs = SpotListUser.objects.filter(spotlist__id=spotlistId)
+    if not qs.exists():
+        return Response({}, status=410)
+    serializer = SpotListUserSerializer(qs, many=True) 
+    for item in serializer.data:
+        item['username'] = Account.objects.get(id=item['user']).username
+    return Response(serializer.data, status=200)
+    
