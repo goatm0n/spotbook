@@ -55,7 +55,13 @@ def update(request, pk):
         return Response(serializer.data, status=204)
     return Response(status=404)
     
-    
+@api_view(['GET'])
+def usersLike(request, username):    
+    qs = Account.objects.filter(username__contains=username)
+    if not qs.exists():
+        return Response(status=404)
+    serializer = AccountSerializer(qs, many=True)
+    return Response(serializer.data, status=200)
 
 
 
