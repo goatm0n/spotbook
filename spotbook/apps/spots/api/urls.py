@@ -24,4 +24,5 @@ urlpatterns = [
     path('createspotlistuser/', views.createSpotListUser, name='create spotListUser'),
     path('deletespotlistuser/<str:userId>/', views.deleteSpotListUser, name='delete spotlistuser'),
     path('spotlistusers/<str:spotlistId>/', views.spotlistusers, name='list spotlistusers'),
+    path('spotmapicon/<str:name>/', views.spotmapicon, name='get spotmapicon'),
 ]
