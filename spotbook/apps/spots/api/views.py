@@ -277,3 +277,10 @@ def spotmapicon(request, name):
     serializer = SpotMapIconSerializer(icon, many=False) 
     return Response(serializer.data, status=200)
     
+@api_view(['GET'])
+def spotmapiconlist(request):
+    qs = SpotMapIcon.objects.all()
+    if not qs.exists():
+        return Response({}, status=404)
+    serializer = SpotMapIconSerializer(qs, many=True)
+    return Response(serializer.data, status=200)
