@@ -2,10 +2,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from spotbook.apps.spots.models import Spot, SpotList, SpotListItem, SpotListUser
+from spotbook.apps.spots.models import Spot, SpotList, SpotListItem, SpotListUser, SpotMapIcon
 from spotbook.apps.profiles.models import Profile
 from spotbook.apps.profiles.api.serializers import ProfileSerializer
-from .serializers import SpotListItemSerializer, SpotListSerializer, SpotListUserSerializer, SpotSerializer
+from .serializers import SpotListItemSerializer, SpotListSerializer, SpotListUserSerializer, SpotMapIconSerializer, SpotSerializer
 from spotbook.apps.accounts.models import Account
 from spotbook.apps.accounts.api.serializers import AccountSerializer
 
@@ -267,4 +267,20 @@ def spotlistusers(request, spotlistId):
     for item in serializer.data:
         item['username'] = Account.objects.get(id=item['user']).username
     return Response(serializer.data, status=200)
+
+@api_view(['GET'])
+def spotmapicon(request, name):
+    qs = SpotMapIcon.objects.filter(name=name)
+    if not qs.exists():
+        return Response({}, status=410)
+    icon = qs.first()
+    serializer = SpotMapIconSerializer(icon, many=False) 
+    return Response(serializer.data, status=200)
     
+@api_view(['GET'])
+def spotmapiconlist(request):
+    qs = SpotMapIcon.objects.all()
+    if not qs.exists():
+        return Response({}, status=404)
+    serializer = SpotMapIconSerializer(qs, many=True)
+    return Response(serializer.data, status=200)
