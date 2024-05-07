@@ -59,3 +59,6 @@ class SpotListUser(models.Model):
     spotlist = models.ForeignKey(SpotList, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class SpotMapIcon(models.Model):
+    iconUrl = models.URLField(max_length=200, default=settings.DEFAULT_SPOTMAP_ICON_URL)
+    name = models.CharField(max_length=32, default='default')

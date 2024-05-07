@@ -158,8 +158,6 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = 'static/'
 
-MEDIA_ROOT = "media/"
-
 DEFAULT_FILE_STORAGE = 'spotbook.storage_backends.PublicMediaStorage'
 
 DEFAULT_PROFILE_PICTURE = "https://i.stack.imgur.com/l60Hf.png"
@@ -174,7 +172,10 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
+# Media
+MEDIA_ROOT = "media/"
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_ROOT}'
+DEFAULT_SPOTMAP_ICON_URL = f'{MEDIA_URL}/icons/default'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
