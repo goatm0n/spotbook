@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'spotbook.apps.profiles',
     'spotbook.apps.spots',
     'spotbook.apps.clips',
+
+    'spotbook.apps.staticdatamanager',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +117,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 
