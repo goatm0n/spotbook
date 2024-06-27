@@ -30,4 +30,5 @@ urlpatterns = [
     path('profiles/', include('spotbook.apps.profiles.urls')),
     path('spots/', include('spotbook.apps.spots.urls')),
     path('clips/', include('spotbook.apps.clips.urls')),
+    path('staticdatamanager/', include('spotbook.apps.staticdatamanager.urls')),
 ]

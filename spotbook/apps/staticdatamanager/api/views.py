@@ -6,8 +6,11 @@ from spotbook.apps.staticdatamanager.api.serializers import GlobalKeyValuePairSe
 
 
 @api_view(['GET'])
-def get_tenant_service_gkvp_list(domain_id:int, service_name:str):
-    qs = GlobalKeyValuePair.objects.filter(domain_id=domain_id, service_name=service_name)
+def get_tenant_service_gkvp_list(request, domain_id, service_name):
+    qs = GlobalKeyValuePair.objects.filter(domain_id=domain_id)
+    if not qs.exists():
+        return Response({}, status=404)
+    qs = qs.filter(service_name=service_name)
     if not qs.exists():
         return Response({}, status=404)
     serializer = GlobalKeyValuePairSerializer(qs, many=True)
